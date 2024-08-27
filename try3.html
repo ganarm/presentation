@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flipkart Structure with Checkboxes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 800px;
+        }
+
+        h1 {
+            color: #2874f0;
+        }
+
+        .section {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .section:hover {
+            background-color: #e0e0e0;
+        }
+
+        .components {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .components p {
+            padding: 10px;
+            background: #f9f9f9;
+            border-left: 3px solid #2874f0;
+            margin: 5px 0;
+            border-radius: 4px;
+        }
+
+        .checkbox-list {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 10px;
+        }
+
+        label {
+            font-size: 18px;
+            cursor: pointer;
+            display: inline-block;
+            margin-bottom: 10px;
+            padding-left: 40px;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        input[type="checkbox"] {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        input[type="checkbox"] + label::before {
+            content: '';
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            margin-right: 10px;
+            vertical-align: middle;
+            border: 2px solid #888; /* Border color for the checkbox */
+            box-sizing: border-box;
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        input[type="checkbox"]:checked + label::before {
+            background: #2874f0; /* Background color when checked */
+            border-color: #2874f0; /* Border color when checked */
+            color: white;
+            content: '✔'; /* Unicode checkmark */
+            text-align: center;
+            line-height: 24px;
+            font-size: 16px;
+        }
+
+        input[type="checkbox"]:checked + label {
+            text-decoration: line-through;
+            color: #9e9e9e;
+        }
+
+        .checkbox-list a {
+            text-decoration: none;
+            color: #2874f0;
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .checkbox-list a:hover {
+            text-decoration: underline;
+        }
+
+        .checked-all {
+            background-color: #e0e0e0; /* Greyish background when all checkboxes are checked */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Flipkart Structure</h1>
+        
+        <div class="section" onclick="toggleComponents('navbar')">
+            <h2>1. Navbar</h2>
+            <div id="navbar" class="components checkbox-list">
+                <h3>Navbar Components</h3>
+                <input type="checkbox" class="nav-checkbox" id="nav1">
+                <label for="nav1">display:flex;</label><br>
+                <input type="checkbox" class="nav-checkbox" id="nav2">
+                <label for="nav2">Search Bar : form : GET Method</label><br>
+                <input type="checkbox" class="nav-checkbox" id="nav3">
+                <label for="nav3">Login Button : Anchor tag, list after hovering on login button: display:none;</label><br>
+                <input type="checkbox" class="nav-checkbox" id="nav4">
+                <label for="nav4">Popup for Login</label><br>
+                <input type="checkbox" class="nav-checkbox" id="nav5">
+                <label for="nav5">Popup for Login</label>
+            </div>
+        </div>
+        
+        <div class="section" onclick="toggleComponents('content')">
+            <h2>2. Content</h2>
+            <div id="content" class="components checkbox-list">
+                <h3>Content Components</h3>
+                <input type="checkbox" id="content1">
+                <label for="content1">Product Listings</label><br>
+                <input type="checkbox" id="content2">
+                <label for="content2">Categories</label><br>
+                <input type="checkbox" id="content3">
+                <label for="content3">Promotions</label>
+            </div>
+        </div>
+        
+        <div class="section" onclick="toggleComponents('footer')">
+            <h2>3. Footer</h2>
+            <div id="footer" class="components checkbox-list">
+                <h3>Footer Components</h3>
+                <input type="checkbox" id="footer1">
+                <label for="footer1">Contact Us</label><br>
+                <input type="checkbox" id="footer2">
+                <label for="footer2">About Us</label><br>
+                <input type="checkbox" id="footer3">
+                <label for="footer3">Terms and Conditions</label>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleComponents(sectionId) {
+            const section = document.getElementById(sectionId);
+            const isVisible = section.style.display === 'block';
+            
+            // Hide all components
+            document.querySelectorAll('.components').forEach(el => el.style.display = 'none');
+            
+            // Toggle the visibility of the clicked section's components
+            section.style.display = isVisible ? 'none' : 'block';
+            
+            // Check if all checkboxes in this section are checked
+            if (!isVisible) {
+                const checkboxes = section.querySelectorAll('input[type="checkbox"]');
+                const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+                if (allChecked) {
+                    section.classList.add('checked-all');
+                } else {
+                    section.classList.remove('checked-all');
+                }
+            }
+        }
+
+        document.querySelectorAll('.nav-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                const navbar = document.getElementById('navbar');
+                const checkboxes = navbar.querySelectorAll('input[type="checkbox"]');
+                const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+                if (allChecked) {
+                    navbar.classList.add('checked-all');
+                } else {
+                    navbar.classList.remove('checked-all');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
